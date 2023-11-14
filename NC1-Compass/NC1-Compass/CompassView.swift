@@ -12,3 +12,7 @@ struct CompassView: View {
         Text("Mammt")
     }
 }
+
+#Preview {
+    CompassView()
+}
