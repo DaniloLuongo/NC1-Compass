@@ -8,17 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		4DAEB06C2B03AB8D00E98A2E /* NC1_CompassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAEB06B2B03AB8D00E98A2E /* NC1_CompassApp.swift */; };
-		4DAEB06E2B03AB8D00E98A2E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAEB06D2B03AB8D00E98A2E /* ContentView.swift */; };
 		4DAEB0702B03AB8E00E98A2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DAEB06F2B03AB8E00E98A2E /* Assets.xcassets */; };
 		4DAEB0732B03AB8E00E98A2E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DAEB0722B03AB8E00E98A2E /* Preview Assets.xcassets */; };
+		4DDADEDF2B03B84600AE1657 /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDADEDE2B03B84600AE1657 /* CompassView.swift */; };
+		4DDADEE12B03B8B000AE1657 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDADEE02B03B8B000AE1657 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4DAEB0682B03AB8D00E98A2E /* NC1-Compass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NC1-Compass.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DAEB06B2B03AB8D00E98A2E /* NC1_CompassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NC1_CompassApp.swift; sourceTree = "<group>"; };
-		4DAEB06D2B03AB8D00E98A2E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4DAEB06F2B03AB8E00E98A2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4DAEB0722B03AB8E00E98A2E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4DDADEDE2B03B84600AE1657 /* CompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
+		4DDADEE02B03B8B000AE1657 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,9 +54,10 @@
 			isa = PBXGroup;
 			children = (
 				4DAEB06B2B03AB8D00E98A2E /* NC1_CompassApp.swift */,
-				4DAEB06D2B03AB8D00E98A2E /* ContentView.swift */,
 				4DAEB06F2B03AB8E00E98A2E /* Assets.xcassets */,
 				4DAEB0712B03AB8E00E98A2E /* Preview Content */,
+				4DDADEDE2B03B84600AE1657 /* CompassView.swift */,
+				4DDADEE02B03B8B000AE1657 /* MainView.swift */,
 			);
 			path = "NC1-Compass";
 			sourceTree = "<group>";
@@ -137,7 +140,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DAEB06E2B03AB8D00E98A2E /* ContentView.swift in Sources */,
+				4DDADEDF2B03B84600AE1657 /* CompassView.swift in Sources */,
+				4DDADEE12B03B8B000AE1657 /* MainView.swift in Sources */,
 				4DAEB06C2B03AB8D00E98A2E /* NC1_CompassApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,6 +279,7 @@
 				DEVELOPMENT_TEAM = 8T43X8C5F9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,6 +309,7 @@
 				DEVELOPMENT_TEAM = 8T43X8C5F9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
