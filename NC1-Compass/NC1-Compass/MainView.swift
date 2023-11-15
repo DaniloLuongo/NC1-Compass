@@ -11,17 +11,12 @@ import CoreMotion
 struct MainView: View {
     
     let motionManager = CMMotionManager()
+    let queue = OperationQueue()
     
     @State var rotation = 20.0
     @State var xOff = -10.0
     @State var yOff = 10.0
     @State var degreeText = "0° N"
-    
-    init()
-    {
-        motionManager.startGyroUpdates()
-        
-    }
     
     var body: some View {
         ZStack {
@@ -57,6 +52,14 @@ struct MainView: View {
                 .foregroundStyle(.white)
                 .font(.system(size: 60))
                 .position(x: 385, y: 610)
+        }
+        .onAppear{
+            self.motionManager.startGyroUpdates(to: self.queue){ (data: CMGyroData?, error: Error?) in
+                let gyro = data!.rotationRate
+                
+                xOff += gyro.x
+                
+            }
         }
     }
 }
