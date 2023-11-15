@@ -12,10 +12,10 @@ struct MainView: View {
     
     @StateObject var locationManager = MyLocationManager()
     
-    //@State var rotation = 20.0
+    //@State var rotation = 0.0
     @State var xOff = 0.0
     @State var yOff = 0.0
-    @State var degreeText = "0° N"
+    //@State var degreeText = "0° N"
     
     /*var userLatitude: String {
             return "\(locationManager.lastLocation?.coordinate.latitude ?? 0)"
@@ -62,8 +62,9 @@ struct MainView: View {
                 .scaledToFit()
                 .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                 .ignoresSafeArea()
-            CompassView(rotation: -(locationManager.lastHeading?.magneticHeading.rounded() ?? 0))
-                .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading.rounded() ?? 0) ))
+            CompassView()
+                .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
+                .environmentObject(locationManager)
             LevelView(xOff: xOff, yOff: yOff)
             Path { path in
                 path.move(to: CGPoint(x: 380, y: 320))
