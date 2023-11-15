@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4DA569572B0517F2005A4EF9 /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA569562B0517F2005A4EF9 /* LevelView.swift */; };
+		4DA569592B05684E005A4EF9 /* MyLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA569582B05684E005A4EF9 /* MyLocationManager.swift */; };
 		4DAEB06C2B03AB8D00E98A2E /* NC1_CompassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAEB06B2B03AB8D00E98A2E /* NC1_CompassApp.swift */; };
 		4DAEB0702B03AB8E00E98A2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DAEB06F2B03AB8E00E98A2E /* Assets.xcassets */; };
 		4DAEB0732B03AB8E00E98A2E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DAEB0722B03AB8E00E98A2E /* Preview Assets.xcassets */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		4DA569562B0517F2005A4EF9 /* LevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
+		4DA569582B05684E005A4EF9 /* MyLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLocationManager.swift; sourceTree = "<group>"; };
 		4DAEB0682B03AB8D00E98A2E /* NC1-Compass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NC1-Compass.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DAEB06B2B03AB8D00E98A2E /* NC1_CompassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NC1_CompassApp.swift; sourceTree = "<group>"; };
 		4DAEB06F2B03AB8E00E98A2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				4DDADEDE2B03B84600AE1657 /* CompassView.swift */,
 				4DDADEE02B03B8B000AE1657 /* MainView.swift */,
 				4DA569562B0517F2005A4EF9 /* LevelView.swift */,
+				4DA569582B05684E005A4EF9 /* MyLocationManager.swift */,
 			);
 			path = "NC1-Compass";
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DDADEDF2B03B84600AE1657 /* CompassView.swift in Sources */,
+				4DA569592B05684E005A4EF9 /* MyLocationManager.swift in Sources */,
 				4DA569572B0517F2005A4EF9 /* LevelView.swift in Sources */,
 				4DDADEE12B03B8B000AE1657 /* MainView.swift in Sources */,
 				4DAEB06C2B03AB8D00E98A2E /* NC1_CompassApp.swift in Sources */,
@@ -205,10 +209,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow Access";
+				"INFOPLIST_KEY_UIRequiredDeviceCapabilities[sdk=*]" = "location-services magnetometer";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
+				NEW_SETTING = "";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -262,10 +269,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow access";
+				"INFOPLIST_KEY_UIRequiredDeviceCapabilities[sdk=*]" = "location-services magnetometer";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				NEW_SETTING = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
