@@ -91,6 +91,9 @@ struct MainView: View {
                 .foregroundStyle(.white)
                 .font(.system(size: 60))
                 .position(x: 385, y: 610)
+                .sensoryFeedback(.impact(flexibility: .solid, intensity: 1), trigger: locationManager.lastHeading?.magneticHeading ?? 0) { oldValue, newValue in
+                    Int(newValue) % 30 == 0
+                }
         }
     }
 }
