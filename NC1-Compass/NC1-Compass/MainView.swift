@@ -10,16 +10,34 @@ import CoreLocation
 
 struct MainView: View {
     
-    @StateObject var locationManager = MyLocationManager()
+    let rotSpeed = 10.0
     
+    @StateObject var locationManager = MyLocationManager()
     //@State var rotation = 0.0
     @State var xOff = 0.0
     @State var yOff = 0.0
-    //@State var degreeText = "0° N"
+    
+    var placemark: String {
+        return("\(locationManager.placemark?.description ?? "XXX")")
+    }
+    
+    var dmsLatitude: (degrees: Int, minutes: Int, seconds: Int) {
+        var seconds = Int((locationManager.lastLocation?.coordinate.latitude ?? 0) * 3600)
+        let degrees = seconds / 3600
+        seconds = abs(seconds % 3600)
+        return (degrees, seconds / 60, seconds % 60)
+    }
+    
+    var dmsLongitude: (degrees: Int, minutes: Int, seconds: Int) {
+        var seconds = Int((locationManager.lastLocation?.coordinate.longitude ?? 0) * 3600)
+        let degrees = seconds / 3600
+        seconds = abs(seconds % 3600)
+        return (degrees, seconds / 60, seconds % 60)
+    }
     
     /*var userLatitude: String {
-            return "\(locationManager.lastLocation?.coordinate.latitude ?? 0)"
-        }
+        return "\(locationManager.lastLocation?.coordinate.latitude ?? 0)"
+    }
         
     var userLongitude: String {
         return "\(locationManager.lastLocation?.coordinate.longitude ?? 0)"
@@ -76,17 +94,16 @@ struct MainView: View {
                 path.addLine(to: CGPoint(x: 440, y: 380))
             }
             .stroke(.white)
-            Circle()
-                .trim(from: 0.0, to: 2/360)
-                .stroke(
-                    .white,
-                    style: StrokeStyle(
-                        lineWidth: 80,
-                        lineCap: .butt
-                    )
+            Path { path in
+                path.move(to: CGPoint(x: 380, y: 195))
+                path.addLine(to: CGPoint(x: 380, y: 265))
+            }
+            .stroke(
+                .white,
+                style: StrokeStyle(
+                    lineWidth: 5
                 )
-                .frame(width: 320)
-                .rotationEffect(.degrees(-91))
+            )
             Text("\(userHeading)° \(direction)")
                 .foregroundStyle(.white)
                 .font(.system(size: 60))
@@ -94,6 +111,15 @@ struct MainView: View {
                 .sensoryFeedback(.impact(flexibility: .solid, intensity: 1), trigger: locationManager.lastHeading?.magneticHeading ?? 0) { oldValue, newValue in
                     Int(newValue) % 30 == 0
                 }
+            Text(String(format: "%d°%d'%d\" %@   %d°%d'%d\" %@", abs(dmsLatitude.degrees), dmsLatitude.minutes, dmsLatitude.seconds, dmsLatitude.degrees >= 0 ? "N" : "S", abs(dmsLongitude.degrees), dmsLongitude.minutes, dmsLongitude.seconds, dmsLongitude.degrees >= 0 ? "E" : "W"))
+                .foregroundStyle(.white)
+                .font(.system(size: 20))
+                .position(x: 385, y: 670)
+            Text(placemark)
+            Text(placemark)
+                .foregroundStyle(.white)
+                .font(.system(size: 20))
+                .position(x: 385, y: 670)
         }
     }
 }

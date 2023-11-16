@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CompassView: View {
     @EnvironmentObject var locationManager: MyLocationManager
+    
     var body: some View {
         Image(systemName: "arrowtriangle.up.fill")
             .foregroundStyle(.red)
