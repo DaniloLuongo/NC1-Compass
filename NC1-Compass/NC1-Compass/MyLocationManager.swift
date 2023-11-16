@@ -18,17 +18,6 @@ class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate 
         willSet { objectWillChange.send() }
       }
     
-    private func geocode() {
-        guard let location = self.location else { return }
-        geocoder.reverseGeocodeLocation(location, completionHandler: { (places, error) in
-          if error == nil {
-            self.placemark = places?[0]
-          } else {
-            self.placemark = nil
-          }
-        })
-      }
-    
     private var locationManager: CLLocationManager?
     @Published var locationStatus: CLAuthorizationStatus?
     @Published var lastLocation: CLLocation?
@@ -44,8 +33,6 @@ class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate 
         locationManager?.startUpdatingLocation()
         locationManager?.startUpdatingHeading()
     }
-
-   
     
     var statusString: String {
         guard let status = locationStatus else {
@@ -78,4 +65,15 @@ class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate 
         lastHeading = newHeading
         //print(#function, newHeading.magneticHeading)
     }
+    
+    private func geocode() {
+        guard let location = lastLocation else { return }
+        geocoder.reverseGeocodeLocation(location, completionHandler: { (places, error) in
+          if error == nil {
+            self.placemark = places?[0]
+          } else {
+            self.placemark = nil
+          }
+        })
+      }
 }

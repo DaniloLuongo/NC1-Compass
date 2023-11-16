@@ -11,10 +11,8 @@ import CoreMotion
 
 struct MainView: View {
     
-    let rotSpeed = 10.0
-    
     @StateObject var locationManager = MyLocationManager()
-    //@State var rotation = 0.0
+    @StateObject var motionManager = MyMotionManager()
     @State var xOff = 0.0
     @State var yOff = 0.0
     
@@ -33,7 +31,7 @@ struct MainView: View {
     }
     
     var placemark: String {
-        return("\(locationManager.placemark?.description ?? "XXX")")
+        return("\(locationManager.placemark?.locality ?? "---"), \(locationManager.placemark?.administrativeArea ?? "---")")
     }
     
     /*var userLatitude: String {
@@ -79,12 +77,14 @@ struct MainView: View {
         ZStack {
             Color(.black)
                 .scaledToFit()
-                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                .aspectRatio(contentMode: .fill)
                 .ignoresSafeArea()
             CompassView()
                 .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
+                //.animation(.easeInOut, value: -(locationManager.lastHeading?.magneticHeading ?? 0))
                 .environmentObject(locationManager)
-            LevelView(xOff: xOff, yOff: yOff)
+            LevelView()
+                .position(x: 380+(motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)*10, y: 380+(motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)*10)
             Path { path in
                 path.move(to: CGPoint(x: 380, y: 320))
                 path.addLine(to: CGPoint(x: 380, y: 440))

@@ -115,7 +115,7 @@ struct CompassView: View {
                     Circle()
                         .trim(from: CGFloat(Float(i))/540.0, to: CGFloat((Float(i+1)))/540.0)
                         .stroke(
-                            .white,
+                            .gray,
                             style: StrokeStyle(
                                 lineWidth: 20,
                                 lineCap: .butt

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D399E372B06A2350011939C /* MyMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D399E362B06A2350011939C /* MyMotionManager.swift */; };
 		4DA569572B0517F2005A4EF9 /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA569562B0517F2005A4EF9 /* LevelView.swift */; };
 		4DA569592B05684E005A4EF9 /* MyLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA569582B05684E005A4EF9 /* MyLocationManager.swift */; };
 		4DAEB06C2B03AB8D00E98A2E /* NC1_CompassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAEB06B2B03AB8D00E98A2E /* NC1_CompassApp.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4D399E362B06A2350011939C /* MyMotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMotionManager.swift; sourceTree = "<group>"; };
 		4DA569562B0517F2005A4EF9 /* LevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
 		4DA569582B05684E005A4EF9 /* MyLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLocationManager.swift; sourceTree = "<group>"; };
 		4DAEB0682B03AB8D00E98A2E /* NC1-Compass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NC1-Compass.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,6 +66,7 @@
 				4DDADEE02B03B8B000AE1657 /* MainView.swift */,
 				4DA569562B0517F2005A4EF9 /* LevelView.swift */,
 				4DA569582B05684E005A4EF9 /* MyLocationManager.swift */,
+				4D399E362B06A2350011939C /* MyMotionManager.swift */,
 			);
 			path = "NC1-Compass";
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DDADEDF2B03B84600AE1657 /* CompassView.swift in Sources */,
+				4D399E372B06A2350011939C /* MyMotionManager.swift in Sources */,
 				4DA569592B05684E005A4EF9 /* MyLocationManager.swift in Sources */,
 				4DA569572B0517F2005A4EF9 /* LevelView.swift in Sources */,
 				4DDADEE12B03B8B000AE1657 /* MainView.swift in Sources */,
@@ -210,6 +214,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow Access";
+				INFOPLIST_KEY_NSMotionUsageDescription = Motion;
 				"INFOPLIST_KEY_UIRequiredDeviceCapabilities[sdk=*]" = "location-services magnetometer";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
@@ -270,6 +275,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow access";
+				INFOPLIST_KEY_NSMotionUsageDescription = Motion;
 				"INFOPLIST_KEY_UIRequiredDeviceCapabilities[sdk=*]" = "location-services magnetometer";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
