@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import CoreMotion
 
 struct MainView: View {
     
@@ -29,6 +30,10 @@ struct MainView: View {
         let degrees = seconds / 3600
         seconds = abs(seconds % 3600)
         return (degrees, seconds / 60, seconds % 60)
+    }
+    
+    var placemark: String {
+        return("\(locationManager.placemark?.description ?? "XXX")")
     }
     
     /*var userLatitude: String {
@@ -111,6 +116,14 @@ struct MainView: View {
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
                 .position(x: 385, y: 670)
+            Text("\(Int(locationManager.lastLocation?.altitude ?? 0))m Elevation")
+                .foregroundStyle(.white)
+                .font(.system(size: 20))
+                .position(x: 385, y: 690)
+            Text("\(placemark)")
+                .foregroundStyle(.white)
+                .font(.system(size: 20))
+                .position(x: 385, y: 710)
         }
     }
 }

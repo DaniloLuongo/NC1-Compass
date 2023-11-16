@@ -94,13 +94,13 @@ struct CompassView: View {
             .foregroundStyle(.white)
             .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
             .position(x:290 ,y: 224.11)
-        ForEach((0 ... 359), id:\.self) { i in
+        ForEach((0 ... 539), id:\.self) { i in
             if(i % 3 == 0)
             {
-                if(i % 30 == 0)
+                if(i % 45 == 0)
                 {
                     Circle()
-                        .trim(from: CGFloat(Float(i))/360.0, to: CGFloat((Float(i+1)))/360.0)
+                        .trim(from: CGFloat(Float(i))/540.0, to: CGFloat((Float(i+1)))/540.0)
                         .stroke(
                             .white,
                             style: StrokeStyle(
@@ -113,7 +113,7 @@ struct CompassView: View {
                 else
                 {
                     Circle()
-                        .trim(from: CGFloat(Float(i))/360.0, to: CGFloat((Float(i+1)))/360.0)
+                        .trim(from: CGFloat(Float(i))/540.0, to: CGFloat((Float(i+1)))/540.0)
                         .stroke(
                             .white,
                             style: StrokeStyle(
