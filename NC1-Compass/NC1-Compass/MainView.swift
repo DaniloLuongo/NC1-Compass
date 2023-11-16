@@ -17,10 +17,6 @@ struct MainView: View {
     @State var xOff = 0.0
     @State var yOff = 0.0
     
-    var placemark: String {
-        return("\(locationManager.placemark?.description ?? "XXX")")
-    }
-    
     var dmsLatitude: (degrees: Int, minutes: Int, seconds: Int) {
         var seconds = Int((locationManager.lastLocation?.coordinate.latitude ?? 0) * 3600)
         let degrees = seconds / 3600
@@ -112,11 +108,6 @@ struct MainView: View {
                     Int(newValue) % 30 == 0
                 }
             Text(String(format: "%d°%d'%d\" %@   %d°%d'%d\" %@", abs(dmsLatitude.degrees), dmsLatitude.minutes, dmsLatitude.seconds, dmsLatitude.degrees >= 0 ? "N" : "S", abs(dmsLongitude.degrees), dmsLongitude.minutes, dmsLongitude.seconds, dmsLongitude.degrees >= 0 ? "E" : "W"))
-                .foregroundStyle(.white)
-                .font(.system(size: 20))
-                .position(x: 385, y: 670)
-            Text(placemark)
-            Text(placemark)
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
                 .position(x: 385, y: 670)

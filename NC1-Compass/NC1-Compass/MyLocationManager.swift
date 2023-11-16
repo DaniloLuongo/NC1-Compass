@@ -10,14 +10,10 @@ import CoreLocation
 
 class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate {
     
-    private let geocoder = CLGeocoder()
     private var locationManager: CLLocationManager?
     @Published var locationStatus: CLAuthorizationStatus?
     @Published var lastLocation: CLLocation?
     @Published var lastHeading: CLHeading?
-    @Published var placemark: CLPlacemark? {
-        willSet { objectWillChange.send() }
-      }
 
 
     override init() {
@@ -46,17 +42,6 @@ class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate 
         default: return "unknown"
         }
     }
-    
-    private func geocode() {
-        guard let location = self.lastLocation else { return }
-            geocoder.reverseGeocodeLocation(location, completionHandler: { (places, error) in
-              if error == nil {
-                self.placemark = places?[0]
-              } else {
-                self.placemark = nil
-              }
-            })
-          }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         locationStatus = status
