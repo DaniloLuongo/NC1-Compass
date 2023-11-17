@@ -13,8 +13,7 @@ struct MainView: View {
     
     @StateObject var locationManager = MyLocationManager()
     @StateObject var motionManager = MyMotionManager()
-    @State var xOff = 0.0
-    @State var yOff = 0.0
+    @State var showRedCircle = false
     
     var dmsLatitude: (degrees: Int, minutes: Int, seconds: Int) {
         var seconds = Int((locationManager.lastLocation?.coordinate.latitude ?? 0) * 3600)
@@ -79,32 +78,57 @@ struct MainView: View {
                 .scaledToFit()
                 .aspectRatio(contentMode: .fill)
                 .ignoresSafeArea()
-            CompassView()
-                .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
-                //.animation(.easeInOut, value: -(locationManager.lastHeading?.magneticHeading ?? 0))
-                .environmentObject(locationManager)
-            LevelView()
-                .position(x: 380+(motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)*10, y: 380+(motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)*10)
-            Path { path in
-                path.move(to: CGPoint(x: 380, y: 320))
-                path.addLine(to: CGPoint(x: 380, y: 440))
-            }
-            .stroke(.white)
-            Path { path in
-                path.move(to: CGPoint(x: 320, y: 380))
-                path.addLine(to: CGPoint(x: 440, y: 380))
-            }
-            .stroke(.white)
-            Path { path in
-                path.move(to: CGPoint(x: 380, y: 220))
-                path.addLine(to: CGPoint(x: 380, y: 270))
-            }
-            .stroke(
-                .white,
-                style: StrokeStyle(
-                    lineWidth: 5
+            Section {
+                Path { path in
+                    path.move(to: CGPoint(x: 380, y: 220))
+                    path.addLine(to: CGPoint(x: 380, y: 270))
+                }
+                .stroke(
+                    .white,
+                    style: StrokeStyle(
+                        lineWidth: 5
+                    )
                 )
-            )
+                if showRedCircle {
+                    Circle()
+                        .trim(from: 0.0, to: 0.3)
+                        .stroke(
+                            .red,
+                            style: StrokeStyle(
+                                lineWidth: 20,
+                                lineCap: .butt
+                            )
+                        )
+                        .frame(width: 200)
+                }
+                CompassView()
+                    .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
+                //.animation(.easeInOut, value: -(locationManager.lastHeading?.magneticHeading ?? 0))
+                    .environmentObject(locationManager)
+                LevelView()
+                    .position(x: 380+(motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)*10, y: 380+(motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)*10)
+                    .onTapGesture {
+                        showRedCircle = !showRedCircle
+                    }
+                
+                Path { path in
+                    path.move(to: CGPoint(x: 380, y: 315))
+                    path.addLine(to: CGPoint(x: 380, y: 445))
+                }
+                .stroke(.gray)
+                Path { path in
+                    path.move(to: CGPoint(x: 315, y: 380))
+                    path.addLine(to: CGPoint(x: 445, y: 380))
+                }
+                .stroke(.gray)
+            }
+            .gesture(DragGesture(minimumDistance: 0)
+                .onChanged { value in
+                    showRedCircle = !showRedCircle
+                }
+                .onEnded { value in
+                    
+                })
             Text("\(userHeading)° \(direction)")
                 .foregroundStyle(.white)
                 .font(.system(size: 60))
@@ -119,11 +143,11 @@ struct MainView: View {
             Text("\(Int(locationManager.lastLocation?.altitude ?? 0))m Elevation")
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
-                .position(x: 385, y: 690)
+                .position(x: 385, y: 695)
             Text("\(placemark)")
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
-                .position(x: 385, y: 710)
+                .position(x: 385, y: 720)
         }
     }
 }
