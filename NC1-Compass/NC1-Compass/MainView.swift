@@ -102,49 +102,9 @@ struct MainView: View {
                     .position(x: 380+(motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)*10, y: 380+(motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)*10)
                 
                 if showRedCircle {
-                    Text("\(Int(valueRedCircle*360))")
-                        .font(.system(size: 18.0))
-                        .foregroundStyle(.white)
-                        .rotationEffect(.degrees(-heading))
-                        .position(x:380+160*sin(CGFloat(Float(valueRedCircle*360)*Float.pi/180)), y: 380-160*cos(CGFloat(Float(valueRedCircle*360)*Float.pi/180)))
-                        .rotationEffect(.degrees(-valueRedCircle*360))
-                    Path { path in
-                        path.move(to: CGPoint(x:380+140*sin(CGFloat(Float(valueRedCircle*360)*Float.pi/180)), y: 380-140*cos(CGFloat(Float(valueRedCircle*360)*Float.pi/180))))
-                        path.addLine(to: CGPoint(x:380+110*sin(CGFloat(Float(valueRedCircle*360)*Float.pi/180)), y: 380-110*cos(CGFloat(Float(valueRedCircle*360)*Float.pi/180))))
-                    }
-                    .stroke(
-                        .white,
-                        style: StrokeStyle(
-                            lineWidth: 2
-                        )
-                    )
-                    .rotationEffect(.degrees(-(locationManager.lastHeading?.magneticHeading ?? 0)), anchor: UnitPoint(x: 0.5, y:0.5))
-                    if heading > valueRedCircle + 0.5 {
-                        Circle()
-                            .trim(from: valueRedCircle, to: 1-heading+2*valueRedCircle)
-                            .stroke(
-                                Color(red: 1.0, green: 0.0, blue: 0.0),
-                                style: StrokeStyle(
-                                    lineWidth: 20,
-                                    lineCap: .butt
-                                )
-                            )
-                            .frame(width: 200)
-                            .rotationEffect(.degrees( -valueRedCircle*360-90 ))
-                    }
-                    else {
-                        Circle()
-                            .trim(from: valueRedCircle, to: heading)
-                            .stroke(
-                                Color(red: 1.0, green: 0.0, blue: 0.0),
-                                style: StrokeStyle(
-                                    lineWidth: 20,
-                                    lineCap: .butt
-                                )
-                            )
-                            .frame(width: 200)
-                            .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) - 90 ))
-                    }
+                    RedCircleView(valueRedCircle: valueRedCircle)
+                        .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
+                        .environmentObject(locationManager)
                 }
                 
                 Path { path in
