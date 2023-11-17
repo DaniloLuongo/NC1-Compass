@@ -14,6 +14,7 @@ struct MainView: View {
     @StateObject var locationManager = MyLocationManager()
     @StateObject var motionManager = MyMotionManager()
     @State var showRedCircle = false
+    @State var valueRedCircle = 0.0
     
     var heading: Double {
         return (locationManager.lastHeading?.magneticHeading ?? 0)/360.0
@@ -93,10 +94,34 @@ struct MainView: View {
                         lineWidth: 5
                     )
                 )
+                CompassView()
+                    .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
+                //.animation(.easeInOut, value: -(locationManager.lastHeading?.magneticHeading ?? 0))
+                    .environmentObject(locationManager)
+                LevelView()
+                    .position(x: 380+(motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)*10, y: 380+(motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)*10)
+                
                 if showRedCircle {
-                    if heading > 0.5 {
+                    Text("\(Int(valueRedCircle*360))")
+                        .font(.system(size: 18.0))
+                        .foregroundStyle(.white)
+                        .rotationEffect(.degrees(-heading))
+                        .position(x:380+160*sin(CGFloat(Float(valueRedCircle*360)*Float.pi/180)), y: 380-160*cos(CGFloat(Float(valueRedCircle*360)*Float.pi/180)))
+                        .rotationEffect(.degrees(-valueRedCircle*360))
+                    Path { path in
+                        path.move(to: CGPoint(x:380+140*sin(CGFloat(Float(valueRedCircle*360)*Float.pi/180)), y: 380-140*cos(CGFloat(Float(valueRedCircle*360)*Float.pi/180))))
+                        path.addLine(to: CGPoint(x:380+110*sin(CGFloat(Float(valueRedCircle*360)*Float.pi/180)), y: 380-110*cos(CGFloat(Float(valueRedCircle*360)*Float.pi/180))))
+                    }
+                    .stroke(
+                        .white,
+                        style: StrokeStyle(
+                            lineWidth: 2
+                        )
+                    )
+                    .rotationEffect(.degrees(-(locationManager.lastHeading?.magneticHeading ?? 0)), anchor: UnitPoint(x: 0.5, y:0.5))
+                    if heading > valueRedCircle + 0.5 {
                         Circle()
-                            .trim(from: 0.0, to: heading-0.5)
+                            .trim(from: valueRedCircle, to: 1-heading+2*valueRedCircle)
                             .stroke(
                                 Color(red: 1.0, green: 0.0, blue: 0.0),
                                 style: StrokeStyle(
@@ -105,11 +130,11 @@ struct MainView: View {
                                 )
                             )
                             .frame(width: 200)
-                            .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
+                            .rotationEffect(.degrees( -valueRedCircle*360-90 ))
                     }
                     else {
                         Circle()
-                            .trim(from: 0.0, to: heading)
+                            .trim(from: valueRedCircle, to: heading)
                             .stroke(
                                 Color(red: 1.0, green: 0.0, blue: 0.0),
                                 style: StrokeStyle(
@@ -121,15 +146,6 @@ struct MainView: View {
                             .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) - 90 ))
                     }
                 }
-                CompassView(showRedCircle: showRedCircle)
-                    .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
-                //.animation(.easeInOut, value: -(locationManager.lastHeading?.magneticHeading ?? 0))
-                    .environmentObject(locationManager)
-                LevelView()
-                    .position(x: 380+(motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)*10, y: 380+(motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)*10)
-                    .onTapGesture {
-                        showRedCircle = !showRedCircle
-                    }
                 
                 Path { path in
                     path.move(to: CGPoint(x: 380, y: 315))
@@ -148,6 +164,7 @@ struct MainView: View {
                 }
                 .onEnded { value in
                     showRedCircle = !showRedCircle
+                    valueRedCircle = heading
                 })
             Text("\(userHeading)° \(direction)")
                 .foregroundStyle(.white)
