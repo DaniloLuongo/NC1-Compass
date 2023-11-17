@@ -10,7 +10,10 @@ import SwiftUI
 struct CompassView: View {
     @EnvironmentObject var locationManager: MyLocationManager
     
+    @State var showRedCircle : Bool
+    
     var body: some View {
+        
         Image(systemName: "arrowtriangle.up.fill")
             .foregroundStyle(.red)
             .position(x:380 ,y: 240)

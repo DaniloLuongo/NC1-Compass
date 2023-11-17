@@ -15,6 +15,10 @@ struct MainView: View {
     @StateObject var motionManager = MyMotionManager()
     @State var showRedCircle = false
     
+    var heading: Double {
+        return (locationManager.lastHeading?.magneticHeading ?? 0)/360.0
+    }
+    
     var dmsLatitude: (degrees: Int, minutes: Int, seconds: Int) {
         var seconds = Int((locationManager.lastLocation?.coordinate.latitude ?? 0) * 3600)
         let degrees = seconds / 3600
@@ -90,18 +94,34 @@ struct MainView: View {
                     )
                 )
                 if showRedCircle {
-                    Circle()
-                        .trim(from: 0.0, to: 0.3)
-                        .stroke(
-                            .red,
-                            style: StrokeStyle(
-                                lineWidth: 20,
-                                lineCap: .butt
+                    if heading > 0.5 {
+                        Circle()
+                            .trim(from: 0.0, to: heading-0.5)
+                            .stroke(
+                                Color(red: 1.0, green: 0.0, blue: 0.0),
+                                style: StrokeStyle(
+                                    lineWidth: 20,
+                                    lineCap: .butt
+                                )
                             )
-                        )
-                        .frame(width: 200)
+                            .frame(width: 200)
+                            .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
+                    }
+                    else {
+                        Circle()
+                            .trim(from: 0.0, to: heading)
+                            .stroke(
+                                Color(red: 1.0, green: 0.0, blue: 0.0),
+                                style: StrokeStyle(
+                                    lineWidth: 20,
+                                    lineCap: .butt
+                                )
+                            )
+                            .frame(width: 200)
+                            .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) - 90 ))
+                    }
                 }
-                CompassView()
+                CompassView(showRedCircle: showRedCircle)
                     .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
                 //.animation(.easeInOut, value: -(locationManager.lastHeading?.magneticHeading ?? 0))
                     .environmentObject(locationManager)
@@ -124,10 +144,10 @@ struct MainView: View {
             }
             .gesture(DragGesture(minimumDistance: 0)
                 .onChanged { value in
-                    showRedCircle = !showRedCircle
+                    
                 }
                 .onEnded { value in
-                    
+                    showRedCircle = !showRedCircle
                 })
             Text("\(userHeading)° \(direction)")
                 .foregroundStyle(.white)
