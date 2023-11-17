@@ -13,7 +13,7 @@ struct CompassView: View {
     var body: some View {
         Image(systemName: "arrowtriangle.up.fill")
             .foregroundStyle(.red)
-            .position(x:380 ,y: 220)
+            .position(x:380 ,y: 240)
         Text("N")
             .font(.system(size: 30.0))
             .foregroundStyle(.white)
@@ -34,66 +34,13 @@ struct CompassView: View {
             .foregroundStyle(.white)
             .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
             .position(x:460 ,y: 380)
-        Text("0")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:380 ,y: 190)
-        Text("30")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:470 ,y: 224.11)
-        Text("60")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:535.88 ,y: 290)
-        Text("90")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:550 ,y: 380)
-        Text("120")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:535.88 ,y: 470)
-        Text("150")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:470 ,y: 535.88)
-        Text("180")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:380 ,y: 550)
-        Text("210")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:290 ,y: 535.88)
-        Text("240")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:224.11 ,y: 470)
-        Text("270")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:205 ,y: 380)
-        Text("300")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:224.11 ,y: 290)
-        Text("330")
-            .font(.system(size: 20.0))
-            .foregroundStyle(.white)
-            .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
-            .position(x:290 ,y: 224.11)
+        ForEach((0 ... 11), id:\.self) { i in
+            Text("\(i*30)")
+                .font(.system(size: 15.0))
+                .foregroundStyle(.white)
+                .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
+                .position(x:380+160*sin(CGFloat(Float(i*30)*Float.pi/180)), y: 380-160*cos(CGFloat(Float(i*30)*Float.pi/180)))
+        }
         ForEach((0 ... 539), id:\.self) { i in
             if(i % 3 == 0)
             {
@@ -104,11 +51,11 @@ struct CompassView: View {
                         .stroke(
                             .white,
                             style: StrokeStyle(
-                                lineWidth: 30,
+                                lineWidth: 20,
                                 lineCap: .butt
                             )
                         )
-                        .frame(width: 260)
+                        .frame(width: 240)
                 }
                 else
                 {
@@ -121,7 +68,7 @@ struct CompassView: View {
                                 lineCap: .butt
                             )
                         )
-                        .frame(width: 250)
+                        .frame(width: 240)
                 }
             }
         }

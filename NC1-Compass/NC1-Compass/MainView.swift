@@ -96,8 +96,8 @@ struct MainView: View {
             }
             .stroke(.white)
             Path { path in
-                path.move(to: CGPoint(x: 380, y: 195))
-                path.addLine(to: CGPoint(x: 380, y: 265))
+                path.move(to: CGPoint(x: 380, y: 220))
+                path.addLine(to: CGPoint(x: 380, y: 270))
             }
             .stroke(
                 .white,

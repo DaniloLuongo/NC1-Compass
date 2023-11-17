@@ -17,11 +17,11 @@ struct LevelView: View {
             path.move(to: CGPoint(x: 380, y: 365))
             path.addLine(to: CGPoint(x: 380, y: 395))
         }
-        .stroke(.white)
+        .stroke(.gray)
         Path { path in
             path.move(to: CGPoint(x: 365, y: 380))
             path.addLine(to: CGPoint(x: 395, y: 380))
         }
-        .stroke(.white)
+        .stroke(.gray)
     }
 }
