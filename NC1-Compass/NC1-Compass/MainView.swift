@@ -118,14 +118,10 @@ struct MainView: View {
                 }
                 .stroke(.gray)
             }
-            .gesture(DragGesture(minimumDistance: 0)
-                .onChanged { value in
-                    
-                }
-                .onEnded { value in
-                    showRedCircle = !showRedCircle
-                    valueRedCircle = heading
-                })
+            .onTapGesture {
+                showRedCircle = !showRedCircle
+                valueRedCircle = heading
+            }
             Text("\(userHeading)° \(direction)")
                 .foregroundStyle(.white)
                 .font(.system(size: 60))
@@ -137,11 +133,17 @@ struct MainView: View {
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
                 .position(x: 385, y: 670)
-            Text("\(Int(locationManager.lastLocation?.altitude ?? 0))m Elevation")
+                .onTapGesture(count: 2, perform: {
+                    let url = URL(string: "maps://?saddr=&daddr=\(locationManager.lastLocation?.coordinate.latitude ?? 0),\(locationManager.lastLocation?.coordinate.longitude ?? 0)")
+                    if UIApplication.shared.canOpenURL(url!) {
+                          UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+                    }
+                })
+            Text("\(placemark)")
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
                 .position(x: 385, y: 695)
-            Text("\(placemark)")
+            Text("\(Int(locationManager.lastLocation?.altitude ?? 0))m Elevation")
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
                 .position(x: 385, y: 720)
