@@ -63,13 +63,10 @@ class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         lastLocation = location
-        //self.geocode()
-        //print(#function, location)
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         lastHeading = newHeading
-        //print(#function, newHeading.magneticHeading)
     }
     
     private func geocode() {

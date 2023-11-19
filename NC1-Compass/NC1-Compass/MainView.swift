@@ -8,7 +8,6 @@
 import SwiftUI
 import CoreLocation
 import CoreMotion
-import AVFoundation
 
 struct MainView: View {
     
@@ -16,8 +15,6 @@ struct MainView: View {
     @StateObject var motionManager = MyMotionManager()
     @State var showRedCircle = false
     @State var valueRedCircle = 0.0
-    @State var balanced = false
-    let systemSoundID: SystemSoundID = 1016
     
     var heading: Double {
         return (locationManager.lastHeading?.magneticHeading ?? 0)/360.0
@@ -50,15 +47,6 @@ struct MainView: View {
     }*/
     
     var userHeading: String {
-        /*if UIAccessibility.isVoiceOverRunning {
-            if abs(roll) < 0.17 && abs(pitch) < 0.17 && !balanced{
-                balanced = true
-                AudioServicesPlaySystemSound(systemSoundID)
-            }
-            else {
-                balanced = false
-            }
-        }*/
         return "\(Int(locationManager.lastHeading?.magneticHeading ?? 0))"
     }
     
