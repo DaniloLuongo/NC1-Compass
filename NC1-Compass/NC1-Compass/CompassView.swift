@@ -25,32 +25,38 @@ struct CompassView: View {
         Image(systemName: "arrowtriangle.up.fill")
             .foregroundStyle(.red)
             .position(x:380 ,y: 240)
+            .accessibilityHidden(true)
         Text("N")
             .font(.system(size: 25.0))
             .foregroundStyle(.white)
             .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
             .position(x:380 ,y: 300)
+            .accessibilityHidden(true)
         Text("W")
             .font(.system(size: 25.0))
             .foregroundStyle(.white)
             .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
             .position(x:300 ,y: 380)
+            .accessibilityHidden(true)
         Text("S")
             .font(.system(size: 25.0))
             .foregroundStyle(.white)
             .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
             .position(x:380 ,y: 460)
+            .accessibilityHidden(true)
         Text("E")
             .font(.system(size: 25.0))
             .foregroundStyle(.white)
             .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
             .position(x:460 ,y: 380)
+            .accessibilityHidden(true)
         ForEach((0 ... 11), id:\.self) { i in
             Text("\(i*30)")
                 .font(.system(size: 15.0))
                 .foregroundStyle(numberColor)
                 .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
                 .position(x:380+160*sin(CGFloat(Float(i*30)*Float.pi/180)), y: 380-160*cos(CGFloat(Float(i*30)*Float.pi/180)))
+                .accessibilityHidden(true)
         }
         ForEach((0 ... 539), id:\.self) { i in
             if(i % 3 == 0)
@@ -67,6 +73,7 @@ struct CompassView: View {
                             )
                         )
                         .frame(width: 240)
+                        .accessibilityHidden(true)
                 }
                 else
                 {
@@ -80,6 +87,7 @@ struct CompassView: View {
                             )
                         )
                         .frame(width: 240)
+                        .accessibilityHidden(true)
                 }
             }
         }

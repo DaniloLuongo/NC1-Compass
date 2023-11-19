@@ -10,6 +10,8 @@ import CoreLocation
 
 class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate {
     
+    var timer = Timer()
+    
     private let geocoder = CLGeocoder()
     @Published var placemark: CLPlacemark? {
         willSet { objectWillChange.send() }
@@ -32,6 +34,10 @@ class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate 
         locationManager?.requestWhenInUseAuthorization()
         locationManager?.startUpdatingLocation()
         locationManager?.startUpdatingHeading()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true, block: { _ in
+            self.geocode()
+            })
     }
     
     var statusString: String {
@@ -57,7 +63,7 @@ class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         lastLocation = location
-        self.geocode()
+        //self.geocode()
         //print(#function, location)
     }
 

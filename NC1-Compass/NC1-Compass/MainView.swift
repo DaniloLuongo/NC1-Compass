@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreLocation
 import CoreMotion
+import AVFoundation
 
 struct MainView: View {
     
@@ -15,6 +16,8 @@ struct MainView: View {
     @StateObject var motionManager = MyMotionManager()
     @State var showRedCircle = false
     @State var valueRedCircle = 0.0
+    @State var balanced = false
+    let systemSoundID: SystemSoundID = 1016
     
     var heading: Double {
         return (locationManager.lastHeading?.magneticHeading ?? 0)/360.0
@@ -47,8 +50,26 @@ struct MainView: View {
     }*/
     
     var userHeading: String {
+        /*if UIAccessibility.isVoiceOverRunning {
+            if abs(roll) < 0.17 && abs(pitch) < 0.17 && !balanced{
+                balanced = true
+                AudioServicesPlaySystemSound(systemSoundID)
+            }
+            else {
+                balanced = false
+            }
+        }*/
         return "\(Int(locationManager.lastHeading?.magneticHeading ?? 0))"
     }
+    
+    var roll: Double {
+        return (motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)
+    }
+    
+    var pitch: Double {
+        return (motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)
+    }
+    
     var direction: String {
         if (locationManager.lastHeading?.magneticHeading ?? 0) > 337.5 || (locationManager.lastHeading?.magneticHeading ?? 0) <= 22.5 {
             return "N"
@@ -77,6 +98,34 @@ struct MainView: View {
         }
     }
     
+    var directionWord : String {
+        if (locationManager.lastHeading?.magneticHeading ?? 0) > 337.5 || (locationManager.lastHeading?.magneticHeading ?? 0) <= 22.5 {
+            return "North"
+        }
+        else if (locationManager.lastHeading?.magneticHeading ?? 0) > 22.5 && (locationManager.lastHeading?.magneticHeading ?? 0) <= 67.5 {
+            return "North East"
+        }
+        else if (locationManager.lastHeading?.magneticHeading ?? 0) > 67.5 && (locationManager.lastHeading?.magneticHeading ?? 0) <= 112.5 {
+            return "East"
+        }
+        else if (locationManager.lastHeading?.magneticHeading ?? 0) > 112.5 && (locationManager.lastHeading?.magneticHeading ?? 0) <= 157.5 {
+            return "South East"
+        }
+        else if (locationManager.lastHeading?.magneticHeading ?? 0) > 157.5 && (locationManager.lastHeading?.magneticHeading ?? 0) <= 202.5 {
+            return "South"
+        }
+        else if (locationManager.lastHeading?.magneticHeading ?? 0) > 202.5 && (locationManager.lastHeading?.magneticHeading ?? 0) <= 247.5 {
+            return "South West"
+        }
+        else if (locationManager.lastHeading?.magneticHeading ?? 0) > 247.5 && (locationManager.lastHeading?.magneticHeading ?? 0) <= 292.5 {
+            return "West"
+        }
+        else
+        {
+            return "North West"
+        }
+    }
+    
     var body: some View {
         ZStack {
             Color(.black)
@@ -94,6 +143,7 @@ struct MainView: View {
                         lineWidth: 5
                     )
                 )
+                .accessibilityHidden(true)
                 
                 if showRedCircle {
                     RedCircleView(valueRedCircle: valueRedCircle)
@@ -105,20 +155,26 @@ struct MainView: View {
                     .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
                     .environmentObject(locationManager)
                 LevelView()
-                    .position(x: 380+(motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)*10, y: 380+(motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)*10)
+                    .position(x: 380 + roll * 10, y: 380 + pitch * 10)
                 
                 Path { path in
                     path.move(to: CGPoint(x: 380, y: 315))
                     path.addLine(to: CGPoint(x: 380, y: 445))
                 }
                 .stroke(.gray)
+                .accessibilityHidden(true)
                 Path { path in
                     path.move(to: CGPoint(x: 315, y: 380))
                     path.addLine(to: CGPoint(x: 445, y: 380))
                 }
                 .stroke(.gray)
+                .accessibilityHidden(true)
             }
             .onTapGesture {
+                showRedCircle = !showRedCircle
+                valueRedCircle = heading
+            }
+            .accessibilityAction {
                 showRedCircle = !showRedCircle
                 valueRedCircle = heading
             }
@@ -129,6 +185,7 @@ struct MainView: View {
                 .sensoryFeedback(.impact(flexibility: .solid, intensity: 1), trigger: locationManager.lastHeading?.magneticHeading ?? 0) { oldValue, newValue in
                     Int(newValue) % 30 == 0
                 }
+                .accessibilityLabel("\(userHeading)° \(directionWord)")
             Text(String(format: "%d°%d'%d\" %@   %d°%d'%d\" %@", abs(dmsLatitude.degrees), dmsLatitude.minutes, dmsLatitude.seconds, dmsLatitude.degrees >= 0 ? "N" : "S", abs(dmsLongitude.degrees), dmsLongitude.minutes, dmsLongitude.seconds, dmsLongitude.degrees >= 0 ? "E" : "W"))
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
@@ -139,14 +196,17 @@ struct MainView: View {
                           UIApplication.shared.open(url!, options: [:], completionHandler: nil)
                     }
                 })
+                .accessibilityLabel(String(format: "%d°%d'%d\" %@   %d°%d'%d\" %@", abs(dmsLatitude.degrees), dmsLatitude.minutes, dmsLatitude.seconds, dmsLatitude.degrees >= 0 ? "North" : "Sud", abs(dmsLongitude.degrees), dmsLongitude.minutes, dmsLongitude.seconds, dmsLongitude.degrees >= 0 ? "East" : "West"))
             Text("\(placemark)")
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
                 .position(x: 385, y: 695)
+                .accessibilityLabel("\(placemark)")
             Text("\(Int(locationManager.lastLocation?.altitude ?? 0))m Elevation")
                 .foregroundStyle(.white)
                 .font(.system(size: 20))
                 .position(x: 385, y: 720)
+                .accessibilityLabel("\(Int(locationManager.lastLocation?.altitude ?? 0))m Elevation")
         }
     }
 }
