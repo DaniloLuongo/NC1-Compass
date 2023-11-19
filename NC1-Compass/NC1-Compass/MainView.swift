@@ -94,18 +94,18 @@ struct MainView: View {
                         lineWidth: 5
                     )
                 )
-                CompassView()
-                    .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
-                //.animation(.easeInOut, value: -(locationManager.lastHeading?.magneticHeading ?? 0))
-                    .environmentObject(locationManager)
-                LevelView()
-                    .position(x: 380+(motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)*10, y: 380+(motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)*10)
                 
                 if showRedCircle {
                     RedCircleView(valueRedCircle: valueRedCircle)
                         .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
                         .environmentObject(locationManager)
                 }
+                
+                CompassView(showRedCircle: $showRedCircle)
+                    .rotationEffect(.degrees( -(locationManager.lastHeading?.magneticHeading ?? 0) ))
+                    .environmentObject(locationManager)
+                LevelView()
+                    .position(x: 380+(motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0)*10, y: 380+(motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0)*10)
                 
                 Path { path in
                     path.move(to: CGPoint(x: 380, y: 315))

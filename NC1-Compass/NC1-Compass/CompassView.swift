@@ -9,6 +9,16 @@ import SwiftUI
 
 struct CompassView: View {
     @EnvironmentObject var locationManager: MyLocationManager
+    @Binding var showRedCircle : Bool
+    
+    var numberColor : Color {
+        if showRedCircle {
+            return Color.gray
+        }
+        else {
+            return Color.white
+        }
+    }
     
     var body: some View {
         
@@ -38,7 +48,7 @@ struct CompassView: View {
         ForEach((0 ... 11), id:\.self) { i in
             Text("\(i*30)")
                 .font(.system(size: 15.0))
-                .foregroundStyle(.white)
+                .foregroundStyle(numberColor)
                 .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
                 .position(x:380+160*sin(CGFloat(Float(i*30)*Float.pi/180)), y: 380-160*cos(CGFloat(Float(i*30)*Float.pi/180)))
         }

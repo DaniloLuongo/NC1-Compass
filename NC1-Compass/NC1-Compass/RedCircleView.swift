@@ -12,23 +12,14 @@ struct RedCircleView: View {
     @EnvironmentObject var locationManager: MyLocationManager
     @State var valueRedCircle : Double
     
-    var heading: Double {
-        if (locationManager.lastHeading?.magneticHeading ?? 0) > 180.0 {
-            return (locationManager.lastHeading?.magneticHeading ?? 0)/360.0 - 0.5
-        }
+    var headingTrimValue: Double {
         return (locationManager.lastHeading?.magneticHeading ?? 0)/360.0
-    }
-    
-    var red: Double {
-        if valueRedCircle > 180.0 {
-            return valueRedCircle/360.0 - 0.5
-        }
-        return valueRedCircle/360.0
     }
     
     var body: some View {
         Text("\(Int(valueRedCircle*360))")
             .font(.system(size: 18.0))
+            .bold()
             .foregroundStyle(.white)
             .rotationEffect(.degrees( locationManager.lastHeading?.magneticHeading ?? 0 ))
             .position(x:380+160*sin(CGFloat(Float(valueRedCircle*360)*Float.pi/180)), y: 380-160*cos(CGFloat(Float(valueRedCircle*360)*Float.pi/180)))
@@ -42,17 +33,41 @@ struct RedCircleView: View {
                 lineWidth: 2
             )
         )
-        Color(red: 0.0, green: 0.5, blue: 0.0).opacity(0.3)
-        Circle()
-            .trim(from: valueRedCircle < heading ? valueRedCircle : heading, to: valueRedCircle < heading ? heading : valueRedCircle)
-            .stroke(
-                Color(red: 1.0, green: 0.0, blue: 0.0),
-                style: StrokeStyle(
-                    lineWidth: 20,
-                    lineCap: .butt
+        if headingTrimValue - valueRedCircle > 0.5 || valueRedCircle - headingTrimValue > 0.5 {
+            Circle()
+                .stroke(
+                    Color(red: 1.0, green: 0.0, blue: 0.0),
+                    style: StrokeStyle(
+                        lineWidth: 20,
+                        lineCap: .butt
+                    )
                 )
-            )
-            .frame(width: 200)
-            .rotationEffect(.degrees( -90 ))
+                .frame(width: 200)
+            Circle()
+                .trim(from: valueRedCircle < headingTrimValue ? valueRedCircle : headingTrimValue, to: valueRedCircle < headingTrimValue ? headingTrimValue : valueRedCircle)
+                .stroke(
+                    Color(red: 0.0, green: 0.0, blue: 0.0),
+                    style: StrokeStyle(
+                        lineWidth: 21,
+                        lineCap: .butt
+                    )
+                )
+                .frame(width: 200)
+                .rotationEffect(.degrees( valueRedCircle - 90 ))
+        }
+        else {
+            Circle()
+                .trim(from: valueRedCircle < headingTrimValue ? valueRedCircle : headingTrimValue, to: valueRedCircle < headingTrimValue ? headingTrimValue : valueRedCircle)
+                .stroke(
+                    Color(red: 1.0, green: 0.0, blue: 0.0),
+                    style: StrokeStyle(
+                        lineWidth: 20,
+                        lineCap: .butt
+                    )
+                )
+                .frame(width: 200)
+                .rotationEffect(.degrees( valueRedCircle - 90 ))
+        }
+        
     }
 }
