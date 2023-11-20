@@ -24,11 +24,10 @@ struct MainView: View {
     
     func checkBalance() {
         if UIAccessibility.isVoiceOverRunning {
-            if abs(self.motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0) < 0.30 && abs(self.motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0) < 0.30{
+            if abs(self.motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0) < 0.30 && abs(self.motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0) < 0.30 {
                 if !balanced {
                     self.balanced = true
                     AudioServicesPlaySystemSound(systemSoundID)
-                    UIAccessibility.post(notification: UIAccessibility.Notification.announcement, argument: NSLocalizedString("QR code has been detected", comment: ""))
                 }
             }
             else {
@@ -197,6 +196,11 @@ struct MainView: View {
                 .sensoryFeedback(.impact(flexibility: .solid, intensity: 1), trigger: locationManager.lastHeading?.magneticHeading ?? 0) { oldValue, newValue in
                     Int(newValue) % 30 == 0
                 }
+                .onChange(of: Int(locationManager.lastHeading?.magneticHeading ?? 0), initial: false, { oldValue, newValue in
+                    if newValue % 10 == 0 {
+                        UIAccessibility.post(notification: UIAccessibility.Notification.announcement, argument: NSLocalizedString("\(userHeading)° \(directionWord)", comment: ""))
+                    }
+                })
                 .accessibilityLabel("\(userHeading)° \(directionWord)")
             Text(String(format: "%d°%d'%d\" %@   %d°%d'%d\" %@", abs(dmsLatitude.degrees), dmsLatitude.minutes, dmsLatitude.seconds, dmsLatitude.degrees >= 0 ? "N" : "S", abs(dmsLongitude.degrees), dmsLongitude.minutes, dmsLongitude.seconds, dmsLongitude.degrees >= 0 ? "E" : "W"))
                 .foregroundStyle(.white)
