@@ -28,6 +28,7 @@ struct MainView: View {
                 if !balanced {
                     self.balanced = true
                     AudioServicesPlaySystemSound(systemSoundID)
+                    UIAccessibility.post(notification: UIAccessibility.Notification.announcement, argument: NSLocalizedString("QR code has been detected", comment: ""))
                 }
             }
             else {
