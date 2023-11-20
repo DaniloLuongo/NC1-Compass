@@ -16,6 +16,6 @@ class MyMotionManager: NSObject ,ObservableObject {
         super.init()
         motionManager = CMMotionManager()
         motionManager?.startDeviceMotionUpdates()
-        motionManager?.deviceMotionUpdateInterval = 0.1
+        motionManager?.deviceMotionUpdateInterval = 10
     }
 }
