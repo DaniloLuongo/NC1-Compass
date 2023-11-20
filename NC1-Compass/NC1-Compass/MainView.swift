@@ -18,13 +18,13 @@ struct MainView: View {
     @State var showRedCircle = false
     @State var valueRedCircle = 0.0
     
-    let systemSoundID: SystemSoundID = 1029
+    let systemSoundID: SystemSoundID = 1109
     @State var balanced = false
     let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     
     func checkBalance() {
         if UIAccessibility.isVoiceOverRunning {
-            if abs(self.motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0) < 0.17 && abs(self.motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0) < 0.17{
+            if abs(self.motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0) < 0.30 && abs(self.motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0) < 0.30{
                 if !balanced {
                     self.balanced = true
                     AudioServicesPlaySystemSound(systemSoundID)
