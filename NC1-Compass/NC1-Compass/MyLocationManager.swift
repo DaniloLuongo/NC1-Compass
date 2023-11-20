@@ -11,6 +11,7 @@ import CoreLocation
 class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate {
     
     var timer = Timer()
+    var initialGeocodeDone = false
     
     private let geocoder = CLGeocoder()
     @Published var placemark: CLPlacemark? {
@@ -63,6 +64,10 @@ class MyLocationManager : NSObject ,ObservableObject, CLLocationManagerDelegate 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         lastLocation = location
+        if !initialGeocodeDone {
+            geocode()
+            initialGeocodeDone = true
+        }
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {

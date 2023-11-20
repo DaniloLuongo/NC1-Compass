@@ -9,12 +9,32 @@ import SwiftUI
 import CoreLocation
 import CoreMotion
 
+import AVFoundation
+
 struct MainView: View {
     
     @StateObject var locationManager = MyLocationManager()
     @StateObject var motionManager = MyMotionManager()
     @State var showRedCircle = false
     @State var valueRedCircle = 0.0
+    
+    let systemSoundID: SystemSoundID = 1029
+    @State var balanced = false
+    let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
+    
+    func checkBalance() {
+        if UIAccessibility.isVoiceOverRunning {
+            if abs(self.motionManager.motionManager?.deviceMotion?.attitude.roll ?? 0.0) < 0.17 && abs(self.motionManager.motionManager?.deviceMotion?.attitude.pitch ?? 0.0) < 0.17{
+                if !balanced {
+                    self.balanced = true
+                    AudioServicesPlaySystemSound(systemSoundID)
+                }
+            }
+            else {
+                self.balanced = false
+            }
+        }
+    }
     
     var heading: Double {
         return (locationManager.lastHeading?.magneticHeading ?? 0)/360.0
@@ -144,6 +164,9 @@ struct MainView: View {
                     .environmentObject(locationManager)
                 LevelView()
                     .position(x: 380 + roll * 10, y: 380 + pitch * 10)
+                    .onReceive(timer){ sium in
+                        self.checkBalance()
+                    }
                 
                 Path { path in
                     path.move(to: CGPoint(x: 380, y: 315))
